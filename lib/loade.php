@@ -6,4 +6,3 @@ function load_template($name)
 {
     include $_SERVER['DOCUMENT_ROOT'] . "/project/__template/$name.php";
 }
-

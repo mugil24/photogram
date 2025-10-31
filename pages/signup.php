@@ -20,12 +20,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php
     load_template('__signupbutton'); ?>
     <main class="form-signin w-100 m-auto">
-        <?php load_template("__signupform") ?>
+         <?php load_template("__signupform") ?>
         <?if ($ret == true) {
             echo "true";
         } else {
             echo "false";
-        }?>
+        }?> 
 
     </main>
 

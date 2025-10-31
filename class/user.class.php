@@ -26,3 +26,4 @@ class user{
     return $result;
 }
 }
+?>
