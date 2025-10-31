@@ -7,7 +7,7 @@
          alt=""
          width="72"
          height="57"
-         style="margin-left: 200px;" />
+         style="margin-left: 100px;" />
      <h1 class="h3 mb-3 fw-normal " style="text-align: center;">Please sign up</h1>
      <div class="form-floating" style="margin-bottom: -1px;">
          <input
