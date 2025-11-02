@@ -1,6 +1,5 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/project/lib/loade.php'; //this like include<stdio.h> to know the where the funtion  load_template is
-include_once $_SERVER['DOCUMENT_ROOT'] . '/project/class/user.class.php'; //this like include<stdio.h> to know the where the funtion  load_template is
+include_once $_SERVER['DOCUMENT_ROOT'] . '/project/lib/loade.php'; //this like include<stdio.h> to know the where the funtion  load_template is
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($_POST['user']) && !empty($_POST['email']) && !empty($_POST['pass'])) {

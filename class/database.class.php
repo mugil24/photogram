@@ -17,7 +17,7 @@ class database
             // Check connection manually
 
             if ($conn->connect_error) {
-                
+
 
                 die("Connection failed: " . $conn->connect_error);
                 // print_r($con->connect_error);
@@ -28,6 +28,7 @@ class database
 
 
         } else {
+          
             return database::$connection;
         }
 
