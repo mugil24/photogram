@@ -10,10 +10,12 @@ class user
         mysqli_report(MYSQLI_REPORT_OFF);
         $conn = database::getconnection();
         $pass = md5($pass);
-        $pass = $pass = md5(strrev(md5($pass)));
+
 
         $sql = "INSERT INTO `login_table` (`username`, `password`, `emailid`) /* */ 
             VALUES ('$user', '$pass', '$email')";
+
+
 
 
 
@@ -29,6 +31,26 @@ class user
 
         //$conn->close();
         return $result;
+    }
+    public static function login($user, $pass)
+    {
+
+        $pass = md5($pass);
+        $conn = database::getconnection();
+        $sql = "SELECT * FROM `login_table` WHERE `username` = '$user'";
+        $result = $conn->query($sql);
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            if ($row['password'] == $pass) {
+                echo " nm";
+                return $row;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
     }
 
     public function authenticate()
