@@ -32,17 +32,16 @@ class user
         //$conn->close();
         return $result;
     }
-    public static function login($user, $pass)
+    public static function login($email, $pass)
     {
 
         $pass = md5($pass);
         $conn = database::getconnection();
-        $sql = "SELECT * FROM `login_table` WHERE `username` = '$user'";
+        $sql = "SELECT * FROM `login_table` WHERE `emailid` = '$email'";
         $result = $conn->query($sql);
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
-            if ($row['password'] == $pass) {
-                echo " nm";
+            if ($row['password'] == $pass && $row['emailid'] == $email) {
                 return $row;
             } else {
                 return false;

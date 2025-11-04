@@ -1,5 +1,10 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/project/lib/loade.php';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!empty($_POST['email']) && !empty($_POST['password'])) {
+        $result = user::login($_POST['email'], $_POST['password']);
+    }
+}
 
 ?>
 <!DOCTYPE html>
