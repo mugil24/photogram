@@ -3,7 +3,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/project/lib/loade.php'; //this like i
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($_POST['user']) && !empty($_POST['email']) && !empty($_POST['pass'])) {
-        $ret = user::signup($_POST['user'], $_POST['email'], $_POST['pass']);
+        $ret = user::signup($_POST['user'], $_POST['email'], $_POST['pass']);    
     }
 }
 ?>

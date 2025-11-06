@@ -8,17 +8,17 @@
       <h1 class="h3 mb-3 fw-normal text-center">Please sign up</h1>
 
       <div class="form-floating mb-2">
-        <input type="text" class="form-control" placeholder="mugil24" name="user" />
+        <input type="text" class="form-control" placeholder="mugil24" name="user" require/>
         <label>Username</label>
       </div>
 
       <div class="form-floating mb-2">
-        <input type="email" class="form-control" placeholder="email" name="email" />
+        <input type="email" class="form-control" placeholder="email" name="email" require/>
         <label>Email address</label>
       </div>
 
       <div class="form-floating mb-2">
-        <input type="password" class="form-control" placeholder="Password" name="pass" />
+        <input type="password" class="form-control" placeholder="Password" name="pass" required />
         <label>Password</label>
       </div>
 

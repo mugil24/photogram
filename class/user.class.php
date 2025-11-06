@@ -9,7 +9,10 @@ class user
         // Disable MySQLi exceptions so errors go to $conn->error
         mysqli_report(MYSQLI_REPORT_OFF);
         $conn = database::getconnection();
-        $pass = md5($pass);
+        $options = [
+            'cost' => 8,
+        ];
+        $pass = (password_hash($pass, PASSWORD_DEFAULT, $options));
 
 
         $sql = "INSERT INTO `login_table` (`username`, `password`, `emailid`) /* */ 
@@ -35,14 +38,13 @@ class user
     public static function login($email, $pass)
     {
 
-        $pass = md5($pass);
         $conn = database::getconnection();
         $sql = "SELECT * FROM `login_table` WHERE `emailid` = '$email'";
         $result = $conn->query($sql);
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
-            if ($row['password'] == $pass && $row['emailid'] == $email) {
-                return $row;
+            if (password_verify($pass, $row["password"])) {
+                return true;
             } else {
                 return false;
             }
