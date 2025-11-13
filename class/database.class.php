@@ -6,10 +6,10 @@ class database
     public static function getconnection()
     {
         if (database::$connection == null) {
-            $servername = "mariadb.selfmade.ninja";
-            $username = "mugil24";
-            $password = "Vaanmugil2403@";
-            $dbname = "mugil24_webdata";
+            $servername = get_config("db_servername");
+            $username =get_config("db_username");
+            $password = get_config("db_password");
+            $dbname = get_config("db_name");
 
             // Create connection
             $conn = new mysqli($servername, $username, $password, $dbname);
@@ -17,9 +17,10 @@ class database
             // Check connection manually
 
             if ($conn->connect_error) {
-                database::$connection = $conn;//store the error in $connection
-                return database::$connection;//Return if any error 
-
+                // echo "ERROR IS -> ". $conn->connect_error;
+                // database::$connection = $conn;//store the error in $connection
+                // return database::$connection;//Return if any error 
+                die("Connection failed: " . $conn->connect_error);
 
                 //die("Connection failed: " . $conn->connect_error);
 

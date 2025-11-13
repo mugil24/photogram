@@ -1,14 +1,21 @@
-  <div class="contin">
+ <div class="contin">
       <img src="sanji.jpg" class="rounded mx-auto d-block" alt="LOGO" id="logo">
       <form class="form1" method="POST"  action="login.php">
           <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label ">Email address</label>
               <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" required>
-              <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+              <div id="emailHelp" class="form-text">
+                <?php
+                if ($var) {?>
+               <div class="alert alert-danger" role="alert">
+                     <?php echo $var?>
+                </div>
+               <?php }?>
+              </div>
           </div>
           <div class="mb-3">
               <label for="exampleInputPassword1" class="form-label">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" name="password "required>
+              <input type="password" class="form-control" id="exampleInputPassword1" name="password"required>
           </div>
 
           <div class="mb-3 d-flex justify-content-between align-items-center">

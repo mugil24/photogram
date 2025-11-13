@@ -3,6 +3,19 @@
 class user
 {
     private $conn;
+    public function __call($name, $argument)
+    {
+        $property = preg_replace("/[^0-9a-zA-Z]/", "", substr($name, 3));
+        $property = strtolower(preg_replace('/\B([A-Z])/', '_$1', $property));
+
+
+        if (substr($name, 0, 3) == "get") {
+            return $this->getdata($property);
+
+        } elseif (substr($name, 0, 3) == "set") {
+            return $this->setdata($property, $argument[0]);
+        }
+    }
     public static function signup($user, $email, $pass)
     {
         // Disable MySQLi exceptions so errors go to $conn->error
@@ -16,10 +29,6 @@ class user
 
         $sql = "INSERT INTO `login_table` (`username`, `password`, `emailid`) /* */ 
             VALUES ('$user', '$pass', '$email')";
-
-
-
-
 
         // Run query and check
         $result = false;
@@ -37,19 +46,21 @@ class user
     }
     public static function login($email, $pass)
     {
-
         $conn = database::getconnection();
         $sql = "SELECT * FROM `login_table` WHERE `emailid` = '$email'";
         $result = $conn->query($sql);
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
-            if (password_verify($pass, $row["password"])) {
+            if (password_verify($pass, $row["password"])) 
+            {
                 return true;
-            } else {
-                return false;
+            } else 
+            {
+                return "Uh-oh! Your email or password is incorrect.";
             }
         } else {
-            return false;
+
+            return "Uh-oh! Your email or password is incorrect.";
         }
 
     }
@@ -73,12 +84,12 @@ class user
         if (!$this->conn) {
             $this->conn = database::getconnection();
         }
-        $sql = "SELECT `$var` FROM `user_table` WHERE `id` = '$this->id' LIMIT 50"; // selsect the bio for id userid
+        $sql = "SELECT `$var` FROM `user_table` WHERE `id` = '$this->id' "; // selsect the bio for id userid $var is like bio or dob
         $result = $this->conn->query($sql);
         if ($result->num_rows == 1) {
             return $row = $result->fetch_assoc()[$var];
         } else {
-           echo false;
+            echo $this->conn->error;
         }
 
 
@@ -89,7 +100,7 @@ class user
         if (!$this->conn) {
             $this->conn = database::getconnection();
         }
-        $sql = "UPDATE `user_table` SET `$var`='$data' WHERE `id`='$this->id'";
+        $sql = "UPDATE `user_table` SET `$var`='$data' WHERE `id`='$this->id'";// it set the value $var('bio') and $data means some data id which id
         if ($this->conn->query($sql)) {
             return true;
         } else {
@@ -97,32 +108,5 @@ class user
         }
 
     }
-    public function setfirstname($firstname)
-    {
-        $this-> setdata('firstname', $firstname);
-    }
-
-    public function getfirstname()
-    {
-        return $this->getdata('firstname');
-    }
-
-    public function setbio($bio)
-    {
-        $this->setdata('bio', $bio);
-    }
-    public function getbio()
-    {
-        return $this->getdata('bio');
-    }
-    public function setphoneno($phone)
-    {
-        $this->setdata('phone no', $phone);
-    }
-    public function getphoneno()
-    {
-        return $this->getdata('phone no');
-    }
-
 
 }
