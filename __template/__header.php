@@ -17,9 +17,9 @@
             <div class="col-sm-4 offset-md-1 py-4">
               <h4>Contact</h4>
               <ul class="list-unstyled">
-                <li><a href="#" class="text-white">Follow on X</a></li>
-                <li><a href="#" class="text-white">Like on Facebook</a></li>
-                <li><a href="#" class="text-white">Email me</a></li>
+                <li><a href="https://github.com/mugil24" target="_blank" class="text-white">My GitHub</a></li>
+                <li><a href="tel:+918056537523" class="text-white">Contat NO</a></li>
+                <li><a href="mailto:vaanmugil24@gmail.com" class="text-white">Email me</a></li>
               </ul>
             </div>
           </div>

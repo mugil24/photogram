@@ -1,17 +1,20 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/project/lib/loade.php';
-$var;
+$var=NULL;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($_POST['email']) && !empty($_POST['password'])) {
         $result = user::login($_POST['email'], $_POST['password']);
-        if ($result === true) {
-            //session::start();
-            session::set('email', $_POST['email']);
-            session::set('password', $_POST['password']);
-            $email = session::get('email');
-            $pass = session::get("password");
+    
+        if ($result===true) {
+            ///session::start();
+            // session::set('email', $_POST['email']);
+            // session::set('password', $_POST['password']);
+            // $email = session::get('email');
+            // $pass = session::get("password");
+            header('Location:  /project/pages/index.php');
         } else {
             $var = $result;
+          
         }
 
 
@@ -38,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" required>
               <div id="emailHelp" class="form-text">
                 <?php
-                if ($var) {?>
+                if (!$var==NULL)  {?>
                <div class="alert alert-danger" role="alert">
                      <?php echo $var?>
                 </div>

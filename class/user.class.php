@@ -3,6 +3,11 @@
 class user
 {
     private $conn;
+    /* 
+    1.__call is magic function if dont know plz refer php document
+    2.it will getfirst three letter and make it like snake if firstName to this like this first_name 
+    3.if get  return $this->getdata($property); else set return $this->setdata($property, $argument[0]);
+    */
     public function __call($name, $argument)
     {
         $property = preg_replace("/[^0-9a-zA-Z]/", "", substr($name, 3));
@@ -47,16 +52,17 @@ class user
     public static function login($email, $pass)
     {
         $conn = database::getconnection();
-        $sql = "SELECT * FROM `login_table` WHERE `emailid` = '$email'";
+        $sql = "SELECT * FROM `login_table` WHERE `username` = '$email' OR `emailid` = '$email' LIMIT 1";
         $result = $conn->query($sql);
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
             if (password_verify($pass, $row["password"])) 
-            {
+            { 
                 return true;
+                return $row['username'] ;
             } else 
             {
-                return "Uh-oh! Your email or password is incorrect.";
+                return ( "Uh-oh! Your email or password is incorrect.");
             }
         } else {
 
@@ -64,6 +70,13 @@ class user
         }
 
     }
+    /* how it work
+    1. This construction help to creat user object to get and set data in usertable
+    2. when we construct it $this->id=$id it will featch the id of user in login table and store in this of id
+    3.using forgine key all id link with logint table id so user id and bio id are same so get the bio of current user
+                            |
+                            v
+    */
     public function __construct($username)
     {
         $this->username = $username;
@@ -78,7 +91,13 @@ class user
 
         }
     }
-
+        /*how its works 
+        1.if var is bio if not connection it will get connection
+        2.when we construct this of is user id so user id and user bio id are same beacuse of forgine key
+        3.fetch using id and store in result and retrurn $var
+            |
+            v
+        */
     public function getdata($var)
     {
         if (!$this->conn) {
@@ -94,6 +113,14 @@ class user
 
 
     }
+    /* 
+    1.if var is bio and $data is some data like (my name !!!!) if not connection it willget connection
+    2.this of id means userid (if u dont know scorlle up)!!!
+    3.if set data it will return true else
+    
+                        |
+                        v
+    */
 
     public function setdata($var, $data)
     {
@@ -104,7 +131,7 @@ class user
         if ($this->conn->query($sql)) {
             return true;
         } else {
-            return false;
+            throw new Exception($this->conn->error);
         }
 
     }
