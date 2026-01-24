@@ -3,7 +3,7 @@ include $_SERVER['DOCUMENT_ROOT'].'/project/lib/loade.php';
 $var=NULL;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($_POST['email']) && !empty($_POST['password'])) {
-        $result = user::login($_POST['email'], $_POST['password']);
+        $result = usersession::authandication($_POST['email'], $_POST['password']);
     
         if ($result===true) {
             ///session::start();
@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // $email = session::get('email');
             // $pass = session::get("password");
             header('Location:  /project/pages/index.php');
+
         } else {
             $var = $result;
           

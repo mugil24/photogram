@@ -4,7 +4,9 @@ class session
 {
     public static function start()// this start the session
     {
+        if(session_status() === PHP_SESSION_NONE) {
         session_start();
+    }
     }
     public static function destroy()// this is destroy the session
     {

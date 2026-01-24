@@ -29,7 +29,7 @@ class user
         $options = [
             'cost' => 8,
         ];
-        $pass = (password_hash($pass, PASSWORD_DEFAULT, $options));
+        $pass = (password_hash($pass, PASSWORD_DEFAULT, $options));//It is php default function for hashing 
 
 
         $sql = "INSERT INTO `login_table` (`username`, `password`, `emailid`) /* */ 
@@ -51,15 +51,15 @@ class user
     }
     public static function login($email, $pass)
     {
-        $conn = database::getconnection();
+        $conn = database::getconnection();//it will create connnection 
         $sql = "SELECT * FROM `login_table` WHERE `username` = '$email' OR `emailid` = '$email' LIMIT 1";
         $result = $conn->query($sql);
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
             if (password_verify($pass, $row["password"])) 
-            { 
-                return true;
+            {  
                 return $row['username'] ;
+
             } else 
             {
                 return ( "Uh-oh! Your email or password is incorrect.");
@@ -71,9 +71,7 @@ class user
 
     }
     /* how it work
-    1. This construction help to creat user object to get and set data in usertable
-    2. when we construct it $this->id=$id it will featch the id of user in login table and store in this of id
-    3.using forgine key all id link with logint table id so user id and bio id are same so get the bio of current user
+        it will construct userobject for current user and fetch the informatio from database and use it 
                             |
                             v
     */
