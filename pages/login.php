@@ -1,21 +1,24 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/project/lib/loade.php';
-$var=NULL;
+
+$var = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($_POST['email']) && !empty($_POST['password'])) {
         $result = usersession::authandication($_POST['email'], $_POST['password']);
-    
-        if ($result===true) {
+
+        if ($result == true) {
             ///session::start();
             // session::set('email', $_POST['email']);
             // session::set('password', $_POST['password']);
             // $email = session::get('email');
             // $pass = session::get("password");
+
+
             header('Location:  /project/pages/index.php');
 
         } else {
-            $var = $result;
-          
+            $var = "Authentication failed. Please check your credentials and try again";
+
         }
 
 
@@ -42,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" required>
               <div id="emailHelp" class="form-text">
                 <?php
-                if (!$var==NULL)  {?>
+                if (!$var == null) {?>
                <div class="alert alert-danger" role="alert">
                      <?php echo $var?>
                 </div>
@@ -58,13 +61,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <a href="#" class="text-decoration-none mx-auto">Forgetpassword?</a>
               <a href="/project/pages/signup.php" class="text-decoration-none">Sign up</a>
           </div>
+            <div class="mb-3 d-flex justify-content-between align-items-center" method="POST" action = "/project/class/usersession.class.php" >
+              <input name="fingerprint" type="hidden" id="fingerprint" >
+                <!-- <input name="fingerprint" type="hidden" id="fingerprint"> -->
+          </div>
+          
 
           <div class="d-grid gap-2">
               <button class="btn btn-primary" type="submit">Login</button>
           </div>
       </form>
   </div>
+  
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://openfpcdn.io/fingerprintjs/v5/iife.min.js"></script>
+<script src="https://openfpcdn.io/fingerprintjs/v5/iife.min.js"></script>
+<script>
+(async () => {
+    const fp = await FingerprintJS.load();
+    const result = await fp.get();
+
+    // await fetch('/project/pages/save_fingerprint.php', {
+    //     method: 'POST',
+    //     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    //     body: 'fingerprint=' + encodeURIComponent(result.visitorId)
+    // });
+    fetch('/project/lib/save_fingerprint.php', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body: 'fingerprint=' + encodeURIComponent(result.visitorId)
+});
+
+    // enable login only after fingerprint saved
+    document.getElementById('loginBtn').disabled = false;
+})();
+</script>
+
+
 
 </html>

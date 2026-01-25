@@ -62,11 +62,11 @@ class user
 
             } else 
             {
-                return ( "Uh-oh! Your email or password is incorrect.");
+                return false;
             }
         } else {
 
-            return "Uh-oh! Your email or password is incorrect.";
+            return false;
         }
 
     }
@@ -106,7 +106,7 @@ class user
         if ($result->num_rows == 1) {
             return $row = $result->fetch_assoc()[$var];
         } else {
-            echo $this->conn->error;
+            return $this->conn->error;
         }
 
 
