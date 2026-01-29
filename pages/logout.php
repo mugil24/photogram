@@ -1,4 +1,6 @@
 <?php
+
 include $_SERVER['DOCUMENT_ROOT'].'/project/lib/loade.php';
-session::set("token", "ec7d1ce2004e413a14b0170e070be7ff");
 session::remove();
+session::destroy();
+header('Location:  /project/pages/index.php');

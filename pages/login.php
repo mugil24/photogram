@@ -7,12 +7,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = usersession::authandication($_POST['email'], $_POST['password']);
 
         if ($result == true) {
-            ///session::start();
-            // session::set('email', $_POST['email']);
-            // session::set('password', $_POST['password']);
-            // $email = session::get('email');
-            // $pass = session::get("password");
 
+            session::set("islogin", true);
 
             header('Location:  /project/pages/index.php');
 

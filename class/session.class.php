@@ -2,11 +2,27 @@
 
 class session
 {
+    private $conn;
     public static function start()// this start the session
     {
-        if(session_status() === PHP_SESSION_NONE) {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
     }
+    public static function remove()
+    {
+        $id = session::get("uid");
+        $user = new user($id);
+        $conn = database::getconnection();
+        $uid = $user->id;
+        $sql = "DELETE FROM `session_table` WHERE ((`uid` = '$uid'));";
+        if ($conn->query($sql)) {
+            
+            return true;
+        } else {
+            return false;
+        }
+
     }
     public static function destroy()// this is destroy the session
     {
@@ -29,7 +45,7 @@ class session
         return isset($_SESSION[$key]);
     }
 
-    public static function get($key, $default=false)//check if key exist if return value else default value
+    public static function get($key, $default = false)//check if key exist if return value else default value
     {
         if (Session::isset($key)) {
             return $_SESSION[$key];

@@ -15,9 +15,8 @@ class usersession
             if (session::get("fingerprint")) {
 
                 $fingerprint = session::get("fingerprint");
-            }
-            else{
-                $fingerprint = "sdgfxhcjk";
+            } else {
+                return false;
             }
             $ip = $_SERVER['REMOTE_ADDR'];//ip of user
             $agent = $_SERVER['HTTP_USER_AGENT'];//user agent of user
@@ -27,6 +26,7 @@ class usersession
             VALUES ('$user->id', '$token',now(), now(), '$ip', '$agent','$fingerprint','1')";
             if ($conn->query($sql)) {
                 session::set("token", $token);
+                session::set("uid", $user->id);
                 return  $token;
             } else {
                 return $conn->error;
@@ -49,8 +49,8 @@ class usersession
             if ($session->isvalide() and $session->isactive()) {//check active and user online but no use in webapplication and isvalid .
                 if ($session->getip() === $_SERVER['REMOTE_ADDR']) {//check current ip and after relode ip .
                     if ($_SERVER['HTTP_USER_AGENT'] === $session->useragent()) {//check current useragent and relode useragent.
-                        $session->update_lastactive();
-                        return true;
+                         $session->update_lastactive();
+                        return new user($session->uid);
                     } else {
                         return false;
                     }
@@ -112,7 +112,7 @@ class usersession
     {
         if (isset($this->data['lastactive_time'])) {
             $lastactive_time = DateTime::createFromFormat('Y-m-d H:i:s', $this->data['lastactive_time']);
-            if (time() - $lastactive_time->getTimestamp() <= 10) {
+            if (time() - $lastactive_time->getTimestamp() <= 3600) {
                 return true;
             } else {
                 return $this->logout();

@@ -3,9 +3,9 @@
 class user
 {
     private $conn;
-    /* 
+    /*
     1.__call is magic function if dont know plz refer php document
-    2.it will getfirst three letter and make it like snake if firstName to this like this first_name 
+    2.it will getfirst three letter and make it like snake if firstName to this like this first_name
     3.if get  return $this->getdata($property); else set return $this->setdata($property, $argument[0]);
     */
     public function __call($name, $argument)
@@ -29,7 +29,7 @@ class user
         $options = [
             'cost' => 8,
         ];
-        $pass = (password_hash($pass, PASSWORD_DEFAULT, $options));//It is php default function for hashing 
+        $pass = (password_hash($pass, PASSWORD_DEFAULT, $options));//It is php default function for hashing
 
 
         $sql = "INSERT INTO `login_table` (`username`, `password`, `emailid`) /* */ 
@@ -51,17 +51,15 @@ class user
     }
     public static function login($email, $pass)
     {
-        $conn = database::getconnection();//it will create connnection 
+        $conn = database::getconnection();//it will create connnection
         $sql = "SELECT * FROM `login_table` WHERE `username` = '$email' OR `emailid` = '$email' LIMIT 1";
         $result = $conn->query($sql);
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
-            if (password_verify($pass, $row["password"])) 
-            {  
+            if (password_verify($pass, $row["password"])) {
                 return $row['username'] ;
 
-            } else 
-            {
+            } else {
                 return false;
             }
         } else {
@@ -71,7 +69,7 @@ class user
 
     }
     /* how it work
-        it will construct userobject for current user and fetch the informatio from database and use it 
+        it will construct userobject for current user and fetch the informatio from database and use it
                             |
                             v
     */
@@ -79,7 +77,7 @@ class user
     {
         $this->username = $username;
         $this->conn = database::getconnection();
-        $sql = "SELECT * FROM `login_table` WHERE `username` = '$this->username'";
+        $sql = "SELECT * FROM `login_table` WHERE `username` = '$this->username'OR `id` = '$this->username'";
         $result = $this->conn->query($sql);
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
@@ -89,13 +87,13 @@ class user
 
         }
     }
-        /*how its works 
-        1.if var is bio if not connection it will get connection
-        2.when we construct this of is user id so user id and user bio id are same beacuse of forgine key
-        3.fetch using id and store in result and retrurn $var
-            |
-            v
-        */
+    /*how its works
+    1.if var is bio if not connection it will get connection
+    2.when we construct this of is user id so user id and user bio id are same beacuse of forgine key
+    3.fetch using id and store in result and retrurn $var
+        |
+        v
+    */
     public function getdata($var)
     {
         if (!$this->conn) {
@@ -111,11 +109,11 @@ class user
 
 
     }
-    /* 
+    /*
     1.if var is bio and $data is some data like (my name !!!!) if not connection it willget connection
     2.this of id means userid (if u dont know scorlle up)!!!
     3.if set data it will return true else
-    
+
                         |
                         v
     */

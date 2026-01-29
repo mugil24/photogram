@@ -1,17 +1,17 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/project/lib/loade.php';
-$token = session::get('token');
-$result = usersession::authorize($token);
+$result = null;
 
-if ($result === false) {
-    // $session = new usesession($token);
-    // $session->logout();
-    session::destroy();
-    
-    header('Location: /project/pages/login.php');
-    exit;
+if (session::get("islogin") == true) {
+    $token = session::get('token');
+    $result = usersession::authorize($token);
+
+    if ($result === false) {
+        session::destroy();
+        header('Location: /project/pages/');
+        exit;
+    }
 }
-
 ?>
 
 <!doctype html>
@@ -19,9 +19,73 @@ if ($result === false) {
  <?php load_template('__head');?>
   <body>
     <?php load_template('__button')?>
-    <?php
-        load_template('__header');
+    
+
+<header data-bs-theme="dark">
+      <div class="collapse text-bg-dark" id="navbarHeader">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-8 col-md-7 py-4">
+              <h4>About</h4>
+              <p class="text-body-secondary">
+                <?php
+                    if ($result !== null) {
+                        echo($result->getdata("bio"));
+                    } else {
+                        echo "Please log in to see your bio.";
+                    }
 ?>
+
+              </p>
+            </div>
+            <div class="col-sm-4 offset-md-1 py-4">
+              <h4>Contact</h4>
+              <ul class="list-unstyled">
+                <li><a href="https://github.com/mugil24" target="_blank" class="text-white">My GitHub</a></li>
+                <li><a href="tel:+918056537523" class="text-white">Contat NO</a></li>
+                <li><a href="mailto:vaanmugil24@gmail.com" class="text-white">Email me</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container">
+          <a href="#" class="navbar-brand d-flex align-items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              aria-hidden="true"
+              class="me-2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"
+              ></path>
+              <circle cx="12" cy="13" r="4"></circle>
+            </svg>
+            <strong>Album</strong>
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarHeader"
+            aria-controls="navbarHeader"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+      </div>
+    </header>
     <main>
       <?php load_template("__content")?>
       <?php load_template('__boath');?>
