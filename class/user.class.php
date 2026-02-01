@@ -51,19 +51,25 @@ class user
     }
     public static function login($email, $pass)
     {
-        $conn = database::getconnection();//it will create connnection
-        $sql = "SELECT * FROM `login_table` WHERE `username` = '$email' OR `emailid` = '$email' LIMIT 1";
-        $result = $conn->query($sql);
-        if ($result->num_rows == 1) {
-            $row = $result->fetch_assoc();
-            if (password_verify($pass, $row["password"])) {
-                return $row['username'] ;
+        $regex = "/^[a-z0-9](\.?[a-z0-9])*@gmail\.com$/i";// this called regex and this determain the formate of userinput
+        $clean = preg_replace('/(@gmail\.com).*/i', '$1', $email);//it will replace after anything .com because hacker use like && cat /var/log/
+        if (preg_match($regex, $clean)) {//it will check user input and regex in same 
+            $conn = database::getconnection();//it will create connnection
+            $sql = "SELECT * FROM `login_table` WHERE `username` = '$clean' OR `emailid` = '$clean' LIMIT 1";
+            $result = $conn->query($sql);
+            if ($result->num_rows == 1) {
+                $row = $result->fetch_assoc();
+                if (password_verify($pass, $row["password"])) {
+                    return $row['username'] ;
 
+                } else {
+                    return false;
+                }
             } else {
+
                 return false;
             }
-        } else {
-
+        }else{
             return false;
         }
 

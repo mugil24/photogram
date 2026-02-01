@@ -25,8 +25,8 @@ class usersession
             $sql = "INSERT INTO `session_table` (`uid`, `token`, `lastactive_time`, `login_time`, `ip`, `user_agent`, `fingerprint`,`active`)
             VALUES ('$user->id', '$token',now(), now(), '$ip', '$agent','$fingerprint','1')";
             if ($conn->query($sql)) {
-                session::set("token", $token);
-                session::set("uid", $user->id);
+                session::set("token", $token);//it set the toke in session 
+                session::set("uid", $user->id);//it set the user id in session 
                 return  $token;
             } else {
                 return $conn->error;
@@ -49,7 +49,7 @@ class usersession
             if ($session->isvalide() and $session->isactive()) {//check active and user online but no use in webapplication and isvalid .
                 if ($session->getip() === $_SERVER['REMOTE_ADDR']) {//check current ip and after relode ip .
                     if ($_SERVER['HTTP_USER_AGENT'] === $session->useragent()) {//check current useragent and relode useragent.
-                         $session->update_lastactive();
+                         $session->update_lastactive();//it will update last active time in database
                         return new user($session->uid);
                     } else {
                         return false;
@@ -150,11 +150,12 @@ class usersession
             return false;
         }
     }
+    //this will help to logout and destroy session
     public function logout()
     {
         $this->sessionremove();
         session::destroy();
-        //return true;
+     
     }
 
 }
